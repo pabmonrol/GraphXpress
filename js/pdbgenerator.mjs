@@ -1,63 +1,62 @@
-import generarCoordenadas from '/js/coordenadas.mjs';
+import coordinatesGenerator from '/js/coordinates.mjs';
 
-function generarArchivoMol(verticesInput, aristasInput, elementos) {
+function generateGraphFile(verticesInput, edgesInput, elements) {
     let vertices = verticesInput.split(',');
-    let adyacencias = aristasInput.split(',');
-    let texto = '';
-    let numeroDeAtomos = vertices.length;
-    let numeroDeEnlaces = adyacencias.length;
+    let edges = edgesInput.split(',');
+    let text = '';
+    let numAtoms = vertices.length;
+    let numEdges = edges.length;
     let radio = 2;
 
     // HEADER
-    texto += `HEADER    NONAME 16/5/2023                                              NONE\n`;
+    text += `HEADER    NONAME 16/5/2023                                              NONE\n`;
 
-    texto += 'TITLE                                                                   NONE\n';
-    texto += 'AUTHOR    Chemical Structure Services at http://cactus.nci.nih.gov      NONE\n';
-    texto += 'REVDAT    1  23-Apr-10   0                                              NONE\n';
+    text += 'TITLE                                                                   NONE\n';
+    text += 'AUTHOR    Chemical Structure Services at http://cactus.nci.nih.gov      NONE\n';
+    text += 'REVDAT    1  23-Apr-10   0                                              NONE\n';
 
     // ATOM
-    let coordenadas = generarCoordenadas(numeroDeAtomos, radio);
-    for (let i = 0; i < numeroDeAtomos; i++) {
-        // Verificar si el elemento se repite en los elementos adyacentes
-        let elementosAdyacentes = adyacencias
+    let coordinates = coordinatesGenerator(numAtoms, radio);
+    for (let i = 0; i < numAtoms; i++) {
+        // Check if the element is repeated in the adjacents elements
+        let elementsEdges = edges
         .filter(a => a.includes(vertices[i]))
         .map(a => a.replace(vertices[i], ''))
         .join('');
 
-        let elemento = elementos[i % elementos.length];
-        let elementosRepetidos = elementosAdyacentes.split('').filter(e => elementosAdyacentes.indexOf(e) !== elementosAdyacentes.lastIndexOf(e));
+        let element = elements[i % elements.length];
+        let elementsRepeated = elementsEdges.split('').filter(e => elementsEdges.indexOf(e) !== elementsEdges.lastIndexOf(e));
 
-        if (elementosRepetidos.includes(elemento)) {
-            // Encontrar un nuevo elemento que no esté en elementosAdyacentes
-            let nuevoElemento = elementos.find(e => !elementosAdyacentes.includes(e));
-            elemento = nuevoElemento;
+        if (elementsRepeated.includes(element)) {
+            // Find a new element that is not in elementsEdges
+            let newElement = elements.find(e => !elementsEdges.includes(e));
+            element = newElement;
         }
 
 
-        texto += `ATOM      ${i + 1}  ${elemento}           0       ${coordenadas[i].join('  ')}  0.00  0.00           \n`;
+        text += `ATOM      ${i + 1}  ${element}           0       ${coordinates[i].join('  ')}  0.00  0.00           \n`;
     }
 
     // CONECT
-      for (let i = 0; i < numeroDeEnlaces; i++) {
-        let enlace = adyacencias[i];
-        let verticesEnlace = enlace.split('');
-        let textoEnlace = `CONECT    ${vertices.indexOf(verticesEnlace[0]) + 1}`;
+      for (let i = 0; i < numEdges; i++) {
+        let edge = edges[i];
+        let verticesEdge = edge.split('');
+        let textEdge = `CONECT    ${vertices.indexOf(verticesEdge[0]) + 1}`;
         
-        for (let j = 1; j < verticesEnlace.length; j++) {
-          textoEnlace += `    ${vertices.indexOf(verticesEnlace[j]) + 1}`;
+        for (let j = 1; j < verticesEdge.length; j++) {
+          textEdge += `    ${vertices.indexOf(verticesEdge[j]) + 1}`;
         }
         
-        textoEnlace += '    0                                         NONE\n';
-        texto += textoEnlace;
+        textEdge += '    0                                         NONE\n';
+        text += textEdge;
       }
     
 
     // END
-    texto += 'END ';
+    text += 'END ';
 
-    console.log(texto);
-    return texto;
+    return text;
 
 }
 
-export { generarArchivoMol };
+export { generateGraphFile };

@@ -6,23 +6,22 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="style.css">
 		<script type="module" src="/js/pdbgenerator.mjs"></script>
-<!-- 		<script type="module" src="/ncromatico.mjs"></script> -->
 	</head>
 	<body>
 		<header>
 			<h1>GraphXpress</h1>
 		</header>
-		<form id="miFormulario">
+		<form>
 			<div class="field field_v1">
-				<label for="vertices" class="ha-screen-reader">Vertixes</label>
+				<label for="vertices" class="ha-screen-reader">Vertices</label>
 				<input id="vertices" class="field__input" placeholder="Ej.: A,B,C">
 				<span class="field__label-wrap" aria-hidden="true">
-				<span class="field__label">Vertixes</span>
+				<span class="field__label">Vertices</span>
 				</span>
 			</div>
 			<div class="field field_v2">
-				<label for="aristas" class="ha-screen-reader">Edges</label>
-				<input id="aristas"  class="field__input" placeholder="Ej.: AB,BC,CA">
+				<label for="edges" class="ha-screen-reader">Edges</label>
+				<input id="edges"  class="field__input" placeholder="Ej.: AB,BC,CA">
 				<span class="field__label-wrap" aria-hidden="true">
 				<span class="field__label">Edges</span>
 				</span>
@@ -35,13 +34,13 @@
             button.addEventListener('click', () => {
 				event.preventDefault();
 
-                // Obtén el valor del input "vertices" y "aristas"
+                // Inputs "vertices" y "aristas"
                 const verticesValue = document.getElementById('vertices').value;
-                const aristasValue = document.getElementById('aristas').value;		
+                const edgesValue = document.getElementById('edges').value;		
 
-                // Almacena el valor en el localStorage
+                // Save values in localStorage
                 localStorage.setItem('verticesValue', verticesValue);
-                localStorage.setItem('aristasValue', aristasValue);
+                localStorage.setItem('edgesValue', edgesValue);
 
 				location.href = './index.html';
 			});
@@ -64,7 +63,7 @@
 		<script type="module">
 
 			import * as THREE from 'three';
-			import { generarArchivoMol } from './js/pdbgenerator.mjs';
+			import { generateGraphFile } from './js/pdbgenerator.mjs';
 
 			import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 			import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
@@ -76,10 +75,10 @@
 			let root;
 			
 			const verticesInput = localStorage.getItem('verticesValue');
-			const aristasInput = localStorage.getItem('aristasValue');
-			const elementos = ['B', 'F', 'H', 'I', 'K', 'N', 'O', 'P', 'S', 'U', 'Y'];
-			const texto = generarArchivoMol(verticesInput, aristasInput, elementos);
-			const url = URL.createObjectURL(new Blob([texto], { type: 'chemical/x-pdb' }));
+			const edgesInput = localStorage.getItem('edgesValue');
+			const elements = ['B', 'F', 'H', 'I', 'K', 'N', 'O', 'P', 'S', 'U', 'Y'];
+			const text = generateGraphFile(verticesInput, edgesInput, elements);
+			const url = URL.createObjectURL(new Blob([text], { type: 'chemical/x-pdb' }));
 
 
 			const loader = new PDBLoader();
