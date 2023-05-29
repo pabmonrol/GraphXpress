@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="style.css">
 		<script type="module" src="/js/pdbgenerator.mjs"></script>
+		<script type="module" src="/js/ncromatic.mjs"></script>
 	</head>
 	<body>
 		<header>
@@ -64,6 +65,7 @@
 
 			import * as THREE from 'three';
 			import { generateGraphFile } from './js/pdbgenerator.mjs';
+			import { cromaticNum } from './js/ncromatic.mjs'
 
 			import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 			import { PDBLoader } from 'three/addons/loaders/PDBLoader.js';
@@ -80,12 +82,17 @@
 			const text = generateGraphFile(verticesInput, edgesInput, elements);
 			const url = URL.createObjectURL(new Blob([text], { type: 'chemical/x-pdb' }));
 
+			const checkCromNum = cromaticNum(edgesInput);
 
 			const loader = new PDBLoader();
 			const offset = new THREE.Vector3();
 
-			init();
-			animate();
+			if (checkCromNum==true){
+				alert("Error: There is one or more vertices with grade bigger than 12");
+			}else{
+				init();
+				animate();
+			};
 
 			function init() {
 
@@ -125,6 +132,11 @@
 
 				loadMolecule(url);
 				URL.revokeObjectURL(url);
+
+				setTimeout(function() {
+					localStorage.clear();
+				}, 2000); // 2000 milisegundos = 2 segundos
+
 
 				//
 

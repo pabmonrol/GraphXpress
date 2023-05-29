@@ -5,7 +5,7 @@ function cromaticNum(edges) {
 
   for (const element of listEdges) {
     for (const letter of element) {
-      if (letra in frequencyLetters) {
+      if (letter in frequencyLetters) {
         frequencyLetters[letter]++;
       } else {
         frequencyLetters[letter] = 1;
