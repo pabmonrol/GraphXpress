@@ -7,6 +7,6 @@
 ![alt text](data/FrontPageImage.png)
 
 ## Walkthrough
-[GraphXpress | Walkthrough](https://www.youtube.com/watch?v=hcnkg_A0Gv0)
+Link to the [GraphXpress | Walkthrough](https://www.youtube.com/watch?v=hcnkg_A0Gv0)
 
 
