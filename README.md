@@ -7,4 +7,4 @@
 ![alt text](data/FrontPageImage.png)
 
 ## Walkthrough
-![](data/Walkthrough.mp4)
+![](data/Walkthrough.mov)
