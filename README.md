@@ -7,4 +7,4 @@
 ![alt text](data/FrontPageImage.png)
 
 ## Walkthrough
-![](data/Walkthrough.mov)
+Link to ![GraphXpress | Walkthrough](https://youtu.be/hcnkg_A0Gv0)
