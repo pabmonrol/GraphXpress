@@ -5,3 +5,6 @@
 
 ## Example
 ![alt text](data/FrontPageImage.png)
+
+## Walkthrough
+![alt text](data/Walkthrough.png)
